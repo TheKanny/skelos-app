@@ -1,0 +1,11 @@
+# Firebase Configuration
+# DO NOT share this file publicly in a real production environment
+
+FIREBASE_CONFIG = {
+    "apiKey": "AIzaSyBGvJAdwnPkF5RWiI-mLx-Mx7pYvEbdYqg",
+    "authDomain": "skelos-biomechanics.firebaseapp.com",
+    "projectId": "skelos-biomechanics",
+    "storageBucket": "skelos-biomechanics.firebasestorage.app",
+    "messagingSenderId": "450246326157",
+    "appId": "1:450246326157:web:51648a36803ab18066afc4",
+}
