@@ -11,59 +11,104 @@ from skelos.auth_manager import AuthManager
 
 # --- Page Configuration ---
 st.set_page_config(
-    page_title="SKELOS | Golf Biomechanics",
+    page_title="SKELOS | Pro Biomechanics",
     page_icon="🏌️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# --- Custom Modern Styling ---
+# --- ELITE DESIGN SYSTEM (UI/UX PRO MAX) ---
 st.markdown("""
     <style>
-        /* Main background and text */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-deep: #0A0C10;
+            --bg-card: rgba(22, 27, 34, 0.7);
+            --accent-gold: #FFD700;
+            --accent-blue: #007AFF;
+            --accent-red: #FF3B30;
+            --accent-orange: #FF9500;
+            --text-main: #FFFFFF;
+            --text-dim: #8B949E;
+            --border-color: rgba(48, 54, 61, 0.8);
+        }
+
         .stApp {
-            background-color: #0E1117;
-            color: #FFFFFF;
-        }
-
-        /* Sidebar Styling */
-        [data-testid="stSidebar"] {
-            background-color: #161B22;
-            border-right: 1px solid #30363D;
-        }
-
-        /* Modern Cards for Risks */
-        .risk-card {
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            border-left: 6px solid;
-            background-color: #1C2128;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-
-        /* Typography */
-        h1, h2, h3 {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
             font-family: 'Inter', sans-serif;
-            font-weight: 700 !important;
-            letter-spacing: -0.5px;
         }
 
-        /* Buttons */
+        [data-testid="stSidebar"] {
+            background-color: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--border-color);
+        }
+
+        .risk-card {
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border-left: 8px solid;
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-left-width: 8px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: transform 0.2s ease;
+        }
+        .risk-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .stat-tile {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            margin: 0;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
         .stButton>button {
-            border-radius: 8px;
-            padding: 10px 24px;
+            border-radius: 12px;
+            padding: 12px 24px;
             font-weight: 600;
+            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+            color: black !important;
+            border: none;
             transition: all 0.3s ease;
         }
+        .stButton>button:hover {
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transform: scale(1.02);
+        }
 
-        /* Inputs */
         .stTextInput > div > div > input {
             background-color: #0D1117;
             color: white;
-            border: 1px solid #30363D;
-            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        h1, h2, h3 {
+            font-weight: 800 !important;
+            letter-spacing: -1px;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -72,24 +117,20 @@ st.markdown("""
 db = DatabaseManager()
 auth = AuthManager()
 
-# --- Session State Management ---
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 if "user" not in st.session_state:
     st.session_state.user = None
 
-# --- Authentication UI ---
+# --- AUTHENTICATION UI ---
 def render_login_page():
     st.markdown("<br><br>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
-
     with col2:
-        st.markdown("<h1 style='text-align: center;'>🏌️ SKELOS</h1>", unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #8B949E; font-size: 1.2rem;'>Golf Swing Analysis & Injury Prevention</p>", unsafe_allow_html=True)
-        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("<h1 style='text-align: center; font-size: 3.5rem;'>🏌️ SKELOS</h1>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; color: #8B949E; font-size: 1.2rem; margin-bottom: 2rem;'>Elite Biomechanical Analysis & Injury Prevention</p>", unsafe_allow_html=True)
 
-        tab1, tab2 = st.tabs(["Login", "Create Account"])
-
+        tab1, tab2 = st.tabs(["Login", "Join the Academy"])
         with tab1:
             email = st.text_input("Email", key="login_email")
             password = st.text_input("Password", type="password", key="login_pass")
@@ -101,12 +142,11 @@ def render_login_page():
                     st.rerun()
                 else:
                     st.error(f"Login failed: {result['error']}")
-
         with tab2:
             new_email = st.text_input("Email", key="signup_email")
             new_password = st.text_input("Password", type="password", key="signup_pass")
             confirm_pass = st.text_input("Confirm Password", type="password", key="confirm_pass")
-            if st.button("Join SKELOS", use_container_width=True):
+            if st.button("Create Pro Account", use_container_width=True):
                 if new_password != confirm_pass:
                     st.error("Passwords do not match.")
                 elif not new_email or not new_password:
@@ -118,33 +158,33 @@ def render_login_page():
                     else:
                         st.error(f"Error: {result['error']}")
 
-# --- Main Application UI ---
+# --- MAIN APPLICATION ---
 def render_main_app():
-    # --- Sidebar Navigation ---
-    st.sidebar.markdown("<h2 style='color: white;'>SKELOS</h2>", unsafe_allow_html=True)
-    st.sidebar.markdown("<p style='color: #8B949E;'>Welcome, User</p>", unsafe_allow_html=True)
-    st.sidebar.markdown("---")
+    # --- Sidebar ---
+    st.sidebar.markdown("<h2 style='color: white; margin-bottom: 0;'>SKELOS</h2>", unsafe_allow_html=True)
+    st.sidebar.markdown("<p style='color: #FFD700; font-size: 0.8rem; font-weight: 600; margin-top: 0;'>PRO VERSION</p>", unsafe_allow_html=True)
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
 
-    page = st.sidebar.radio("Navigate To:", ["New Analysis", "Session History", "Skelos Academy"])
+    page = st.sidebar.radio("Main Menu", ["New Analysis", "Session History", "Skelos Academy"])
 
     st.sidebar.markdown("<br><br>", unsafe_allow_html=True)
-    if st.sidebar.button("Logout", use_container_width=True):
+    if st.sidebar.button("Sign Out", use_container_width=True):
         st.session_state.authenticated = False
         st.session_state.user = None
         st.rerun()
 
     if page == "New Analysis":
         st.title("🎯 New Swing Analysis")
-        st.markdown("<p style='color: #8B949E;'>Upload your swing video to detect biomechanical risks.</p>", unsafe_allow_html=True)
+        st.markdown("<p style='color: #8B949E;'>Upload your swing video for elite-level biomechanical breakdown.</p>", unsafe_allow_html=True)
 
-        uploaded_file = st.file_uploader("Choose a video file", type=["mp4", "mov", "avi"])
+        uploaded_file = st.file_uploader("Drop your swing video here", type=["mp4", "mov", "avi"])
 
         if uploaded_file is not None:
             video_path = "temp_video.mp4"
             with open(video_path, "wb") as f:
                 f.write(uploaded_file.getbuffer())
 
-            with st.spinner("🔍 Analyzing kinematics and rotation..."):
+            with st.spinner("⚡ Computing kinematics and rotation..."):
                 processor = VideoProcessor()
                 engine = BiomechanicsEngine()
                 analyzer = RiskAnalyzer()
@@ -153,51 +193,65 @@ def render_main_app():
                 bio_results = engine.analyze_swing(df_landmarks)
                 risk_report = analyzer.analyze_risks(bio_results)
 
+            # --- ELITE STAT TILES ---
+            st.markdown("<br>", unsafe_allow_html=True)
+            t1, t2, t3, t4 = st.columns(4)
+            with t1:
+                st.markdown(f'<div class="stat-tile"><p class="stat-label">Max X-Factor</p><p class="stat-value">{bio_results["max_x_factor"]:.1f}°</p></div>', unsafe_allow_html=True)
+            with t2:
+                st.markdown(f'<div class="stat-tile"><p class="stat-label">Pelvis Peak</p><p class="stat-value">{bio_results["max_pelvis_vel"]:.1f}</p></div>', unsafe_allow_html=True)
+            with t3:
+                st.markdown(f'<div class="stat-tile"><p class="stat-label">Thorax Peak</p><p class="stat-value">{bio_results["max_thorax_vel"]:.1f}</p></div>', unsafe_allow_html=True)
+            with t4:
+                st.markdown(f'<div class="stat-tile"><p class="stat-label">Wrist Peak</p><p class="stat-value">{bio_results["max_wrist_vel"]:.1f}</p></div>', unsafe_allow_html=True)
+
+            st.markdown("<br>", unsafe_allow_html=True)
             col1, col2 = st.columns([2, 1])
 
             with col1:
                 st.subheader("Swing Visualization")
                 st.video(video_path)
 
-                st.subheader("Kinematic Sequence & X-Factor")
+                st.subheader("Kinematic Sequence")
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(y=bio_results['x_factor'], name="X-Factor", line=dict(color='#FFD700', width=4)))
-                fig.add_trace(go.Scatter(y=bio_results['pelvis_vel'], name="Pelvis Velocity", line=dict(color='#4A90E2')))
-                fig.add_trace(go.Scatter(y=bio_results['thorax_vel'], name="Thorax Velocity", line=dict(color='#50E3C2')))
-                fig.add_trace(go.Scatter(y=bio_results['wrist_vel'], name="Arm/Club Velocity", line=dict(color='#FF4B4B')))
+                fig.add_trace(go.Scatter(y=bio_results['pelvis_vel'], name="Pelvis", line=dict(color='#007AFF')))
+                fig.add_trace(go.Scatter(y=bio_results['thorax_vel'], name="Thorax", line=dict(color='#50E3C2')))
+                fig.add_trace(go.Scatter(y=bio_results['wrist_vel'], name="Wrist", line=dict(color='#FF3B30')))
                 fig.update_layout(
                     template="plotly_dark",
                     paper_bgcolor='rgba(0,0,0,0)',
                     plot_bgcolor='rgba(0,0,0,0)',
                     xaxis_title="Frame", yaxis_title="Value",
-                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                    margin=dict(l=20, r=20, t=20, b=20)
                 )
                 st.plotly_chart(fig, use_container_width=True)
 
             with col2:
-                st.subheader("Injury Prevention")
+                st.subheader("Injury Risk Report")
                 if not risk_report:
-                    st.success("✅ No significant biomechanical risks detected!")
+                    st.success("✅ Biomechanicals are within safe range.")
                 else:
                     for risk in risk_report:
-                        color = "#FF4B4B" if risk['level'] == 'High' else "#FFA500"
+                        color = "#FF3B30" if risk['level'] == 'High' else "#FF9500"
                         st.markdown(f"""
                         <div class="risk-card" style="border-left-color: {color};">
-                            <strong style="color: {color};">{risk['type'].capitalize()} - {risk['level']} Risk</strong><br>
-                            <span style="font-size: 0.9rem;">{risk['message']}</span>
+                            <strong style="color: {color}; font-size: 1.1rem;">{risk['type'].capitalize()} - {risk['level']} Risk</strong><br>
+                            <span style="color: #FFFFFF; font-size: 0.95rem; opacity: 0.9;">{risk['message']}</span>
                         </div>
                         """, unsafe_allow_html=True)
 
             if risk_report:
                 st.markdown("---")
-                st.subheader("🛠️ Improvement Checklist")
+                st.subheader("🛠️ Corrective Strategy")
                 for risk in risk_report:
-                    with st.expander(f"Correcting {risk['type'].capitalize()} Issues"):
+                    with st.expander(f"Fixing {risk['type'].capitalize()} Issues"):
                         for step in risk['improvement_steps']:
                             st.checkbox(step, key=f"check_{risk['type']}_{step}")
 
                 st.markdown("---")
-                st.subheader("💡 Pro Tips")
+                st.subheader("💡 Pro-Level Advice")
                 recommended_tips = [TIPS_LIBRARY[r['type']] for r in risk_report if r['type'] in TIPS_LIBRARY]
                 for tip in recommended_tips:
                     st.markdown(f"**{tip['title']}**")
@@ -205,49 +259,44 @@ def render_main_app():
                     st.info(f"**Action:** {tip['action']}")
 
             st.markdown("---")
-            st.subheader("Save Analysis")
-            player_name = st.text_input("Player Name")
+            st.subheader("Archive Analysis")
+            player_name = st.text_input("Player Identity")
             if st.button("Save to Cloud", use_container_width=True):
                 if player_name:
                     session_id = db.save_session(player_name, uploaded_file.name, bio_results, risk_report)
                     st.success(f"Session archived successfully!")
                 else:
-                    st.error("Please enter a player name.")
+                    st.error("Please enter a player identity.")
 
     elif page == "Session History":
         st.title("🕒 Session History")
         sessions = db.get_all_sessions()
-
         if not sessions:
-            st.info("No saved sessions found. Start by analyzing a new swing!")
+            st.info("No saved sessions found. Start your first analysis!")
         else:
             session_options = {f"{s[0]} - {s[1]} ({s[2]})": s[0] for s in sessions}
-            selected_session_label = st.selectbox("Select a session:", list(session_options.keys()))
-
+            selected_session_label = st.selectbox("Select session:", list(session_options.keys()))
             if selected_session_label:
                 session_id = session_options[selected_session_label]
                 details = db.get_session_details(session_id)
                 meta, metrics, risks = details['meta'], details['metrics'], details['risks']
-
                 st.markdown(f"### Session: {meta[0]}")
                 st.write(f"**Date:** {meta[1]} | **Video:** {meta[2]}")
-
                 col1, col2 = st.columns([2, 1])
                 with col1:
                     st.subheader("Metric Summary")
                     labels = ['Max X-Factor', 'Peak Pelvis Vel', 'Peak Thorax Vel', 'Peak Wrist Vel']
                     values = metrics[1:]
-                    fig_summary = go.Figure([go.Bar(x=labels, y=values, marker_color='#4A90E2')])
+                    fig_summary = go.Figure([go.Bar(x=labels, y=values, marker_color='#007AFF')])
                     fig_summary.update_layout(template="plotly_dark", paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
                     st.plotly_chart(fig_summary, use_container_width=True)
-
                 with col2:
                     st.subheader("Risk Archive")
                     if not risks:
                         st.success("✅ No risks recorded.")
                     else:
                         for risk in risks:
-                            color = "#FF4B4B" if risk[1] == 'High' else "#FFA500"
+                            color = "#FF3B30" if risk[1] == 'High' else "#FF9500"
                             st.markdown(f"""
                             <div class="risk-card" style="border-left-color: {color};">
                                 <strong style="color: {color};">{risk[0]} - {risk[1]} Risk</strong><br>
@@ -257,8 +306,8 @@ def render_main_app():
 
     elif page == "Skelos Academy":
         st.title("🎓 Skelos Academy")
-        st.markdown("Learn the science behind your swing and how to improve your body's mechanics.")
-        search_query = st.text_input("Search knowledge base...", "").lower()
+        st.markdown("The definitive guide to golf biomechanics and injury prevention.")
+        search_query = st.text_input("Search the knowledge base...", "").lower()
         for category, tip in TIPS_LIBRARY.items():
             if search_query in tip['title'].lower() or search_query in tip['description'].lower() or search_query in category:
                 with st.expander(f"📖 {tip['title']} ({category.capitalize()})"):

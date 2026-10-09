@@ -17,23 +17,34 @@ class RiskAnalyzer:
         max_x = np.max(bio_data['x_factor'])
         max_pelvis = np.max(np.abs(bio_data['pelvis_angle']))
 
-        if max_x > self.X_FACTOR_MAX_SAFE and max_pelvis < self.HIP_MOBILITY_THRESHOLD:
+        if max_x > 50.0 and max_pelvis < self.HIP_MOBILITY_THRESHOLD:
             risks.append({
                 'type': 'lumbar',
                 'level': 'High',
-                'message': 'High risk of lumbar compensation. Limited hip rotation is forcing the lower back to over-rotate.',
+                'message': 'Critical risk of lumbar compensation. Limited hip rotation is forcing the lower back to over-rotate dangerously.',
                 'improvement_steps': [
-                    "Perform pelvic tilts to mobilize the lower spine",
+                    "Immediate focus on pelvic tilts to mobilize the lower spine",
                     "Execute 90/90 hip switches (3 sets of 10)",
                     "Engage core stability via Dead-bugs before swinging",
                     "Focus on hip-first transition in the downswing"
+                ]
+            })
+        elif max_x > 45.0:
+            risks.append({
+                'type': 'lumbar',
+                'level': 'High',
+                'message': 'High X-Factor detected. This level of torsion puts significant stress on the lumbar discs.',
+                'improvement_steps': [
+                    "Plank rotations for core stability",
+                    "Gentle thoracic spine rotations",
+                    "Ensure lead hip is fully cleared during follow-through"
                 ]
             })
         elif max_x > self.X_FACTOR_MAX_SAFE:
             risks.append({
                 'type': 'lumbar',
                 'level': 'Moderate',
-                'message': 'High X-Factor detected. Ensure core stability to manage torso torque.',
+                'message': 'Elevated X-Factor detected. Ensure core stability to manage torso torque.',
                 'improvement_steps': [
                     "Plank rotations for core stability",
                     "Gentle thoracic spine rotations",
