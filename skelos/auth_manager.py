@@ -1,6 +1,6 @@
 import pyrebase
 
-from skelos.config import FIREBASE_CONFIG
+from config import FIREBASE_CONFIG
 
 class AuthManager:
     def __init__(self):
