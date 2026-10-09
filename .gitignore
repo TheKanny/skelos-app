@@ -1,24 +1,7 @@
-# Git ignore for SKELOS
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-.venv/
-venv/
-ENV/
-
-# Streamlit/Local temp files
+CLAUDE.md
+PROJECT_STATE.md
+*.bak
 temp_video.mp4
-.streamlit/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Secrets and Config (IMPORTANT)
-# We store these in config.py/cloud_config.py, but in a production
-# environment we would use .env files.
-# For now, we keep the source, but ignore the following:
-*.env
-.secrets
+processed_swing.mp4
+__pycache__/
+.streamlit/secrets.toml
