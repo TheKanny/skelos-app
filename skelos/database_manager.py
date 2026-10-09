@@ -1,6 +1,6 @@
 import pandas as pd
 from supabase import create_client, Client
-from skelos.cloud_config import SUPABASE_CONFIG
+from cloud_config import SUPABASE_CONFIG
 
 class DatabaseManager:
     def __init__(self):
