@@ -1,8 +1,7 @@
-CLAUDE.md
+SKELOS_DEV_LOG.md
 PROJECT_STATE.md
 *.bak
 temp_video.mp4
 processed_swing.mp4
 __pycache__/
 .streamlit/secrets.toml
-todo.txt
