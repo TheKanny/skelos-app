@@ -5,7 +5,7 @@ import numpy as np
 import subprocess
 import os
 from scipy.signal import savgol_filter
-from skelos.utils import get_vector
+from utils import calculate_angle, get_vector, normalize_angles
 
 class VideoProcessor:
     def __init__(self):
