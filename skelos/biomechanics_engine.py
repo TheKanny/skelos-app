@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from skelos.utils import calculate_angle, get_vector, normalize_angles
+from utils import calculate_angle, get_vector, normalize_angles
 
 class BiomechanicsEngine:
     def __init__(self):
