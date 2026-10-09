@@ -2,14 +2,14 @@ import streamlit as st
 import cv2
 import pandas as pd
 import plotly.graph_objects as go
-from skelos.video_processor import VideoProcessor
-from skelos.biomechanics_engine import BiomechanicsEngine
-from skelos.risk_analyzer import RiskAnalyzer
-from skelos.scoring_engine import ScoringEngine
-from skelos.fundamental_analyzer import FundamentalAnalyzer
-from skelos.database_manager import DatabaseManager
-from skelos.tips_library import TIPS_LIBRARY
-from skelos.auth_manager import AuthManager
+from video_processor import VideoProcessor
+from biomechanics_engine import BiomechanicsEngine
+from risk_analyzer import RiskAnalyzer
+from scoring_engine import ScoringEngine
+from fundamental_analyzer import FundamentalAnalyzer
+from database_manager import DatabaseManager
+from tips_library import TIPS_LIBRARY
+from auth_manager import AuthManager
 
 # --- Page Configuration ---
 st.set_page_config(
