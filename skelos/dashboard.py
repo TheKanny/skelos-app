@@ -3,6 +3,7 @@ import cv2
 import pandas as pd
 import plotly.graph_objects as go
 import os
+import base64
 from video_processor import VideoProcessor
 from biomechanics_engine import BiomechanicsEngine
 from risk_analyzer import RiskAnalyzer
