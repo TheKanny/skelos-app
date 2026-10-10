@@ -161,18 +161,23 @@ def run_analysis(uploaded_file):
         f.write(uploaded_file.getbuffer())
 
     processed_video_path = "processed_swing.mp4"
-    with st.spinner("⚡ Executing Kinematic Analysis..."):
-        processor = VideoProcessor()
-        engine = BiomechanicsEngine()
-        analyzer = RiskAnalyzer()
-        scorer = ScoringEngine()
-        f_analyzer = FundamentalAnalyzer()
+    try:
+        with st.spinner("⚡ Executing Kinematic Analysis..."):
+            processor = VideoProcessor()
+            engine = BiomechanicsEngine()
+            analyzer = RiskAnalyzer()
+            scorer = ScoringEngine()
+            f_analyzer = FundamentalAnalyzer()
 
-        df_landmarks, _ = processor.process_video(video_path, processed_video_path)
-        bio_results = engine.analyze_swing(df_landmarks)
-        risk_report = analyzer.analyze_risks(bio_results)
-        fundamental_report = f_analyzer.analyze_fundamentals(bio_results)
-        grade_report = scorer.evaluate_swing(bio_results, fundamental_report)
+            df_landmarks, _ = processor.process_video(video_path, processed_video_path)
+            bio_results = engine.analyze_swing(df_landmarks)
+            risk_report = analyzer.analyze_risks(bio_results)
+            fundamental_report = f_analyzer.analyze_fundamentals(bio_results)
+            grade_report = scorer.evaluate_swing(bio_results, fundamental_report)
+    except Exception as e:
+        st.error(f"Analysis Error: {e}")
+        # Return empty/default results so the app doesn't crash completely
+        return processed_video_path, {}, [], {"overall_grade": "N/A", "overall_score": 0}, {}
 
     return processed_video_path, bio_results, risk_report, grade_report, fundamental_report
 
