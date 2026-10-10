@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import subprocess
 import os
+import gc
 from scipy.signal import savgol_filter
 from utils import calculate_angle, get_vector, normalize_angles
 
@@ -39,6 +40,17 @@ class VideoProcessor:
             success, frame = cap.read()
             if not success:
                 break
+
+            # --- RESOURCE OPTIMIZATION: Downscale for Memory ---
+            # Resize to 720p max to prevent Streamlit Cloud RAM crashes
+            h, w = frame.shape[:2]
+            max_dim = 1280
+            if max(h, w) > max_dim:
+                scale = max_dim / max(h, w)
+                frame = cv2.resize(frame, (int(w * scale), int(h * scale)))
+                width, height = frame.shape[1], frame.shape[0]
+            else:
+                width, height = w, h
 
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = self.pose.process(frame_rgb)
@@ -83,6 +95,9 @@ class VideoProcessor:
 
         cap.release()
         out.release()
+
+        # Force memory cleanup
+        gc.collect()
 
         # --- FFmpeg Web-Optimization Step ---
         try:
