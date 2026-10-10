@@ -19,7 +19,7 @@ class VideoProcessor:
             min_tracking_confidence=0.5
         )
 
-    def process_video(self, video_path, output_path="processed_swing.mp4"):
+    def process_video(self, video_path, output_path):
         # Temporary file for the raw OpenCV output
         temp_output = "temp_raw_processed.mp4"
         cap = cv2.VideoCapture(video_path)

@@ -160,6 +160,7 @@ def run_analysis(uploaded_file):
     with open(video_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
 
+    processed_video_path = "processed_swing.mp4"
     with st.spinner("⚡ Executing Kinematic Analysis..."):
         processor = VideoProcessor()
         engine = BiomechanicsEngine()
@@ -167,11 +168,13 @@ def run_analysis(uploaded_file):
         scorer = ScoringEngine()
         f_analyzer = FundamentalAnalyzer()
 
-        df_landmarks, processed_video_path = processor.process_video(video_path)
+        df_landmarks, _ = processor.process_video(video_path, processed_video_path)
         bio_results = engine.analyze_swing(df_landmarks)
         risk_report = analyzer.analyze_risks(bio_results)
         fundamental_report = f_analyzer.analyze_fundamentals(bio_results)
         grade_report = scorer.evaluate_swing(bio_results, fundamental_report)
+
+    return processed_video_path, bio_results, risk_report, grade_report, fundamental_report
 
     return processed_video_path, bio_results, risk_report, grade_report, fundamental_report
 
