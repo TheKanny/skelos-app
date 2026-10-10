@@ -2,6 +2,7 @@ import streamlit as st
 import cv2
 import pandas as pd
 import plotly.graph_objects as go
+import os
 from video_processor import VideoProcessor
 from biomechanics_engine import BiomechanicsEngine
 from risk_analyzer import RiskAnalyzer
@@ -156,11 +157,11 @@ if "user" not in st.session_state:
 
 # --- SHARED ANALYSIS LOGIC ---
 def run_analysis(uploaded_file):
-    video_path = "temp_video.mp4"
+    video_path = os.path.join("/tmp", "temp_video.mp4")
     with open(video_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
 
-    processed_video_path = "processed_swing.mp4"
+    processed_video_path = os.path.join("/tmp", "processed_swing.mp4")
     try:
         with st.spinner("⚡ Executing Kinematic Analysis..."):
             processor = VideoProcessor()

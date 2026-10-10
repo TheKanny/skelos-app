@@ -20,8 +20,8 @@ class VideoProcessor:
         )
 
     def process_video(self, video_path, output_path):
-        # Temporary file for the raw OpenCV output
-        temp_output = "temp_raw_processed.mp4"
+        # Use /tmp for temporary files on Linux servers
+        temp_output = os.path.join("/tmp", "temp_raw_processed.mp4")
         cap = cv2.VideoCapture(video_path)
 
         width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
