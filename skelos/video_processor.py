@@ -94,6 +94,7 @@ class VideoProcessor:
                 'ffmpeg', '-y',
                 '-i', temp_output,
                 '-c:v', 'libx264',
+                '-pix_fmt', 'yuv420p',
                 '-preset', 'fast',
                 '-movflags', 'faststart',
                 output_path
