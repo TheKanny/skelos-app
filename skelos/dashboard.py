@@ -210,7 +210,12 @@ def render_results(video_path, bio_results, risk_report, grade_report, fundament
 
     with col1:
         st.subheader("Swing Visualization")
-        st.video(video_path, format="video/mp4")
+        try:
+            with open(video_path, "rb") as v_file:
+                video_bytes = v_file.read()
+            st.video(video_bytes, format="video/mp4")
+        except Exception as e:
+            st.error(f"Could not load video: {e}")
 
         st.subheader("Kinematic Sequence")
         fig = go.Figure()
