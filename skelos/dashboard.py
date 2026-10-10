@@ -215,7 +215,16 @@ def render_results(video_path, bio_results, risk_report, grade_report, fundament
         try:
             with open(video_path, "rb") as v_file:
                 video_bytes = v_file.read()
-            st.video(video_bytes, format="video/mp4")
+
+            # Embed video as Base64 for maximum browser compatibility
+            video_base64 = base64.b64encode(video_bytes).decode()
+            video_html = f"""
+                <video width="100%" controls autoplay loop muted style="border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+                    <source src="data:video/mp4;base64,{video_base64}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            """
+            st.markdown(video_html, unsafe_allow_html=True)
         except Exception as e:
             st.error(f"Could not load video: {e}")
 
